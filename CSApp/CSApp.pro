@@ -14,14 +14,18 @@ SOURCES += \
     main.cpp \
     cs_app.cpp \
     orderhandlerform.cpp \
-    producthandlerform.cpp
+    orderinformaiton.cpp \
+    producthandlerform.cpp \
+    productinformaiton.cpp
 
 HEADERS += \
     clienthandlerform.h \
     clientinformaiton.h \
     cs_app.h \
     orderhandlerform.h \
-    producthandlerform.h
+    orderinformaiton.h \
+    producthandlerform.h \
+    productinformaiton.h
 
 FORMS += \
     clienthandlerform.ui \
