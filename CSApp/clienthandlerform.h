@@ -26,6 +26,7 @@ private slots:
     void on_modifyPushButton_clicked();
     void on_tableWidget5_itemClicked(QTableWidgetItem *item);
     void orderAddedClient(int);
+    void ordersearchedClient(int);
     void setclientComboBox(QComboBox*, QComboBox*);
 
 private:
@@ -36,8 +37,9 @@ private:
 signals:
     void clientAdded(int);
     void clientRemoved(int);
-    void clientModified(int);
-    void orderReturn(QList<QString>);
+    void clientModified(int, QList<QString>);
+    void addReturn(QList<QString>);
+    void searchReturn(QList<QString>);
     void clientSize(int);
 };
 

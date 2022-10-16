@@ -146,7 +146,7 @@ void OrderHandlerForm::on_enrollPushButton_clicked()
     update();
 }
 
-void OrderHandlerForm::orderReturnClient(QList<QString> cinfo)
+void OrderHandlerForm::addReturnClient(QList<QString> cinfo)
 {
     QVector<QTableWidget*> w;
     w << Oui->tableWidget2 << Oui->tableWidget4 << Oui->tableWidget5;
@@ -163,7 +163,7 @@ void OrderHandlerForm::orderReturnClient(QList<QString> cinfo)
     }
 }
 
-void OrderHandlerForm::orderReturnProduct(QList<QString> pinfo)
+void OrderHandlerForm::addReturnProduct(QList<QString> pinfo)
 {
     QVector<QTableWidget*> w;
     w << Oui->tableWidget2 << Oui->tableWidget4 << Oui->tableWidget5;
@@ -189,7 +189,7 @@ void OrderHandlerForm::clientRemoved(int cid)
     QVector<QTableWidgetItem*> items = Oui->tableWidget1->findItems(QString::number(cid), Qt::MatchExactly);
     Q_FOREACH(auto v, items)
     {
-        int key = Oui->tableWidget1->item(v->row(),0)->text().toInt();
+        int key = table[0]->item(v->row(),0)->text().toInt();
         keys << key;
 
         table[0]->takeItem(key-100001, 0);
@@ -221,7 +221,7 @@ void OrderHandlerForm::productRemoved(int pid)
     QVector<QTableWidgetItem*> items = Oui->tableWidget1->findItems(QString::number(pid), Qt::MatchExactly);
     Q_FOREACH(auto v, items)
     {
-        int key = Oui->tableWidget1->item(v->row(),0)->text().toInt();
+        int key = table[0]->item(v->row(),0)->text().toInt();
         keys << key;
 
         table[0]->takeItem(key-100001, 0);
@@ -244,13 +244,65 @@ void OrderHandlerForm::productRemoved(int pid)
         orderInfo.take(v);
     }
 }
-void OrderHandlerForm::clientModified(int cid)
+void OrderHandlerForm::clientModified(int cid, QList<QString> cinfo)
 {
+    QVector<QTableWidget*> table;
+    table << Oui->tableWidget1 << Oui->tableWidget2 << Oui->tableWidget4 << Oui->tableWidget5;
 
+    QVector<int> keys;
+    QVector<int> rows;
+
+    QVector<QTableWidgetItem*> items = Oui->tableWidget1->findItems(QString::number(cid), Qt::MatchExactly);
+    Q_FOREACH(auto v, items)
+    {
+        int key = table[0]->item(v->row(),0)->text().toInt();
+        keys << key;
+        int row = v->row();
+        rows << row;
+    }
+
+    for(int x = 0; x < keys.length(); x++)
+    {
+        int row = rows[x];
+        for(int i = 1; i < 4; i++)
+        {
+            table[i]->setItem(row, 2, new QTableWidgetItem(cinfo[0]));
+            table[i]->setItem(row, 3, new QTableWidgetItem(cinfo[1]));
+            table[i]->setItem(row, 4, new QTableWidgetItem(cinfo[2]));
+        }
+    }
+    emit clientComboBox(Oui->clientIDComboBox1, Oui->clientInfoComboBox);
 }
-void OrderHandlerForm::productModified(int pid)
+void OrderHandlerForm::productModified(int pid, QList<QString> pinfo)
 {
+    QVector<QTableWidget*> table;
+    table << Oui->tableWidget1 << Oui->tableWidget2 << Oui->tableWidget4 << Oui->tableWidget5;
 
+    QVector<int> keys;
+    QVector<int> rows;
+
+    QVector<QTableWidgetItem*> items = Oui->tableWidget1->findItems(QString::number(pid), Qt::MatchExactly);
+    Q_FOREACH(auto v, items)
+    {
+        int key = table[0]->item(v->row(),0)->text().toInt();
+        keys << key;
+        int row = v->row();
+        rows << row;
+    }
+
+    for(int x = 0; x < keys.length(); x++) //변경된 제품의 주문정보와 관련된 모든 데이터에서 정보를 수정
+    {
+        int row = rows[x];
+        for(int i = 1; i < 4; i++) //테이블 위젯 2, 4, 5의 제품 관련 데이터 채우기
+        {
+            table[i]->setItem(row, 5, new QTableWidgetItem(pinfo[0])); //제품 종류
+            table[i]->setItem(row, 6, new QTableWidgetItem(pinfo[1])); //제품명
+            table[i]->setItem(row, 7, new QTableWidgetItem(pinfo[2])); //제품 가격
+            table[i]->setItem(row, 9, new QTableWidgetItem             //총 가격 = 제품 가격 * 주문수량
+                              (QString::number(pinfo[2].toInt() * table[i]->item(row, 8)->text().toInt())));
+        }
+    }
+    emit productComboBox(Oui->productIDComboBox1, Oui->productInfoComboBox);
 }
 
 void OrderHandlerForm::on_tableWidget5_itemClicked(QTableWidgetItem *item)
@@ -262,5 +314,50 @@ void OrderHandlerForm::on_tableWidget5_itemClicked(QTableWidgetItem *item)
     for(int i = 0; i < 3; i++)
         v[i]->setText(Oui->tableWidget5->item(item->row(),i)->text());
     update();
+}
+
+
+void OrderHandlerForm::on_searchPushButton_clicked()
+{
+    QTableWidget *table = Oui->tableWidget3;
+    table->update();
+    table->setRowCount(0); //이전 검색결과 초기화
+    int key = Oui->searchLineEdit->text().toInt(); //입력된 키 값 저장
+
+    if(orderInfo[key]) //입력된 키가 저장된 정보에 있으면
+    {
+        QVector<QString> v;
+        v << orderInfo[key]->getOrderDate() << QString::number(orderInfo[key]->getOrderNumber());
+
+        int row = table->rowCount();
+        table->setRowCount(table->rowCount()+1); //테이블에 데이터가 들어갈 행 생성
+        table->setItem(row, 0, new QTableWidgetItem(QString::number(key))); //주문id를 테이블에 삽입
+        table->setItem(row, 1, new QTableWidgetItem(v[0])); //주문 일자를 테이블에 삽입
+        table->setItem(row, 8, new QTableWidgetItem(v[1])); //주문 수량을 테이블에 삽입
+        emit orderSearchedClient(orderInfo[key]->getCID());
+        emit orderSearchedProduct(orderInfo[key]->getPID());
+    }
+    update();
+    Oui->searchLineEdit->clear();
+}
+
+void OrderHandlerForm::searchReturnClient(QList<QString> cinfo)
+{
+//여기부터 해야 함
+}
+void OrderHandlerForm::searchReturnProduct(QList<QString> pinfo)
+{
+
+}
+
+void OrderHandlerForm::on_removePushButton_clicked()
+{
+
+}
+
+
+void OrderHandlerForm::on_modifyPushButton_clicked()
+{
+
 }
 

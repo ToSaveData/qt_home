@@ -73,7 +73,8 @@ void ProductHandlerForm::setproductComboBox(QComboBox* PidBox, QComboBox* PinfoB
         QString name = productInfo[key]->getProductName();
         QString sort = productInfo[key]->getProductSort();
 
-        PidBox->addItem(QString::number(key));
+        if(PinfoBox->findText(QString::number(key)) < 0)
+            PidBox->addItem(QString::number(key));
 
         if(PinfoBox->findText(name + "(" + sort + ")") < 0)
             PinfoBox->addItem(name + "(" + sort + ")");
@@ -191,7 +192,10 @@ void ProductHandlerForm::on_modifyPushButton_clicked()
     ProductInformaiton *p = new ProductInformaiton(key, v[1]->text(), v[2]->text().toInt(), v[3]->text());
     productInfo.insert(key,p);
     update();
-    //    emit productModified(w[2]->item(w[2]->currentRow(),0)->text().toInt());
+
+    QList<QString> pinfo;
+    pinfo << p->getProductSort() << p->getProductName() << QString::number(p->getProductPrice());
+    emit productModified(key, pinfo);
 
     for (int i = 0 ; i < 4; i++)    v[i]->clear();
 }
@@ -201,6 +205,11 @@ void ProductHandlerForm::orderAddedProduct(int pid)
     QList<QString> pinfo;
     pinfo << productInfo[pid]->getProductSort() << productInfo[pid]->getProductName()
           << QString::number(productInfo[pid]->getProductPrice());
-    emit orderReturn(pinfo);
+    emit addReturn(pinfo);
 }
 
+void ProductHandlerForm::ordersearchedProduct(int pid)
+{
+    QList<QString> pinfo;
+    emit searchReturn(pinfo);
+}

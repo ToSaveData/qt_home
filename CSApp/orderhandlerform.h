@@ -24,19 +24,29 @@ public slots:
     void productAdded();
     void clientRemoved(int);
     void productRemoved(int);
-    void clientModified(int);
-    void productModified(int);
+    void clientModified(int, QList<QString>);
+    void productModified(int, QList<QString>);
 
 private slots:
     void on_enrollPushButton_clicked();
-    void orderReturnClient(QList<QString>);
-    void orderReturnProduct(QList<QString>);
+    void addReturnClient(QList<QString>);
+    void addReturnProduct(QList<QString>);
+    void searchReturnClient(QList<QString>);
+    void searchReturnProduct(QList<QString>);
 
     void on_tableWidget5_itemClicked(QTableWidgetItem *item);
+
+    void on_searchPushButton_clicked();
+
+    void on_removePushButton_clicked();
+
+    void on_modifyPushButton_clicked();
 
 signals:
     void orderAddedClient(int);
     void orderAddedProduct(int);
+    void orderSearchedClient(int);
+    void orderSearchedProduct(int);
     void clientComboBox(QComboBox*, QComboBox*);
     void productComboBox(QComboBox*, QComboBox*);
 

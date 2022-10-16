@@ -73,7 +73,8 @@ void ClientHandlerForm::setclientComboBox(QComboBox* CidBox, QComboBox* CinfoBox
         QString name = clientInfo[key]->getName();
         QString phoneNum = clientInfo[key]->getPhoneNumber();
 
-        CidBox->addItem(QString::number(key));
+        if(CinfoBox->findText(QString::number(key)) < 0)
+            CidBox->addItem(QString::number(key));
 
         if(CinfoBox->findText(name + "(" + phoneNum + ")") < 0)
             CinfoBox->addItem(name + "(" + phoneNum + ")");
@@ -180,8 +181,10 @@ void ClientHandlerForm::on_modifyPushButton_clicked()
             v[4]->text(), v[5]->text());
     clientInfo.insert(key,c);
     update();
-    //    emit clientModified();
 
+    QList<QString> cinfo;
+    cinfo << c->getName() << c->getPhoneNumber() << c->getAddress();
+    emit clientModified(key, cinfo);
     for (int i = 0 ; i < 6; i++)    v[i]->clear();
 }
 
@@ -202,5 +205,12 @@ void ClientHandlerForm::orderAddedClient(int cid)
 {
     QList<QString> cinfo;
     cinfo << clientInfo[cid]->getName() << clientInfo[cid]->getPhoneNumber() << clientInfo[cid]->getAddress();
-    emit orderReturn(cinfo);
+    emit addReturn(cinfo);
+}
+
+void ClientHandlerForm::ordersearchedClient(int cid)
+{
+    QList<QString> cinfo;
+    cinfo << clientInfo[cid]->getName() << clientInfo[cid]->getPhoneNumber() << clientInfo[cid]->getAddress();
+    emit searchReturn(cinfo);
 }
