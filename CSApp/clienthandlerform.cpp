@@ -3,6 +3,7 @@
 #include <QTableWidgetItem>
 #include <QList>
 #include <QFile>
+#include <QComboBox>
 
 ClientHandlerForm::ClientHandlerForm(QWidget *parent) :
     QWidget(parent),
@@ -38,6 +39,7 @@ ClientHandlerForm::ClientHandlerForm(QWidget *parent) :
         }
     }
     file.close( );
+    emit clientSize(clientInfo.size());
 }
 
 ClientHandlerForm::~ClientHandlerForm()
@@ -60,8 +62,22 @@ ClientHandlerForm::~ClientHandlerForm()
 
 int ClientHandlerForm::makecid()
 {
-    if(clientInfo.isEmpty())    return 1;
-    else    return clientInfo.size() + 1;
+    if(clientInfo.isEmpty())    return 5001;
+    else    return clientInfo.size() + 5001;
+}
+void ClientHandlerForm::setclientComboBox(QComboBox* CidBox, QComboBox* CinfoBox)
+{
+    Q_FOREACH(auto i, clientInfo)
+    {
+        int key = clientInfo.key(i);
+        QString name = clientInfo[key]->getName();
+        QString phoneNum = clientInfo[key]->getPhoneNumber();
+
+        CidBox->addItem(QString::number(key));
+
+        if(CinfoBox->findText(name + "(" + phoneNum + ")") < 0)
+            CinfoBox->addItem(name + "(" + phoneNum + ")");
+    }
 }
 
 void ClientHandlerForm::on_enrollPushButton_clicked()
@@ -92,6 +108,8 @@ void ClientHandlerForm::on_enrollPushButton_clicked()
     clientInfo.insert(key, c);
     update();
     emit clientAdded(key);
+
+    for (int i = 0 ; i < 5; i++)    v[i]->clear();
 }
 
 void ClientHandlerForm::on_searchPushButton_clicked()
@@ -115,15 +133,20 @@ void ClientHandlerForm::on_searchPushButton_clicked()
             table->setItem(row, i+1, new QTableWidgetItem(v[i])); //나머지 고객 정보 테이블에 삽입
     }
     update();
+    Cui->searchLineEdit->clear();
 }
 
 
 void ClientHandlerForm::on_removePushButton_clicked()
 {
+
     QVector<QTableWidget*> w;
     w << Cui->tableWidget1 << Cui->tableWidget2 << Cui->tableWidget4 << Cui->tableWidget5;
 
-    clientInfo.remove(w[2]->item(w[2]->currentRow(),0)->text().toInt());
+    int key =w[2]->item(w[2]->currentRow(),0)->text().toInt();
+    emit clientRemoved(key);
+
+    clientInfo.remove(key);
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 6; j++)
@@ -132,7 +155,6 @@ void ClientHandlerForm::on_removePushButton_clicked()
         }
     }
     update();
-    emit clientRemoved();
 }
 
 
@@ -158,7 +180,9 @@ void ClientHandlerForm::on_modifyPushButton_clicked()
             v[4]->text(), v[5]->text());
     clientInfo.insert(key,c);
     update();
-    emit clientModified();
+    //    emit clientModified();
+
+    for (int i = 0 ; i < 6; i++)    v[i]->clear();
 }
 
 
@@ -174,3 +198,9 @@ void ClientHandlerForm::on_tableWidget5_itemClicked(QTableWidgetItem *item)
     update();
 }
 
+void ClientHandlerForm::orderAddedClient(int cid)
+{
+    QList<QString> cinfo;
+    cinfo << clientInfo[cid]->getName() << clientInfo[cid]->getPhoneNumber() << clientInfo[cid]->getAddress();
+    emit orderReturn(cinfo);
+}

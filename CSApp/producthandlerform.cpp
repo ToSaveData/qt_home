@@ -3,6 +3,7 @@
 #include <QList>
 #include <QFile>
 #include <QTableWidgetItem>
+#include <QComboBox>
 
 ProductHandlerForm::ProductHandlerForm(QWidget *parent) :
     QWidget(parent),
@@ -38,6 +39,7 @@ ProductHandlerForm::ProductHandlerForm(QWidget *parent) :
         }
     }
     file.close( );
+    productSize(productInfo.size());
 }
 
 ProductHandlerForm::~ProductHandlerForm()
@@ -59,9 +61,25 @@ ProductHandlerForm::~ProductHandlerForm()
 
 int ProductHandlerForm::makepid()
 {
-    if(productInfo.isEmpty())    return 1000;
-    else    return productInfo.size() + 1000;
+    if(productInfo.isEmpty())    return 1001;
+    else    return productInfo.size() + 1001;
 }
+
+void ProductHandlerForm::setproductComboBox(QComboBox* PidBox, QComboBox* PinfoBox)
+{
+    Q_FOREACH(auto i, productInfo)
+    {
+        int key = productInfo.key(i);
+        QString name = productInfo[key]->getProductName();
+        QString sort = productInfo[key]->getProductSort();
+
+        PidBox->addItem(QString::number(key));
+
+        if(PinfoBox->findText(name + "(" + sort + ")") < 0)
+            PinfoBox->addItem(name + "(" + sort + ")");
+    }
+}
+
 void ProductHandlerForm::on_enrollPushButton_clicked()
 {
     QVector<QTableWidget*> w;
@@ -88,6 +106,8 @@ void ProductHandlerForm::on_enrollPushButton_clicked()
     productInfo.insert(key, p);
     update();
     emit productAdded(key);
+
+    for (int i = 0 ; i < 3; i++)    v[i]->clear();
 }
 
 
@@ -96,7 +116,10 @@ void ProductHandlerForm::on_removePushButton_clicked()
     QVector<QTableWidget*> w;
     w << Pui->tableWidget1 << Pui->tableWidget2 << Pui->tableWidget4 << Pui->tableWidget5;
 
-    productInfo.remove(w[2]->item(w[2]->currentRow(),0)->text().toInt());
+    int key =w[2]->item(w[2]->currentRow(),0)->text().toInt();
+    emit productRemoved(key);
+
+    productInfo.remove(key);
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)
@@ -105,8 +128,6 @@ void ProductHandlerForm::on_removePushButton_clicked()
         }
     }
     update();
-
-    emit productRemoved();
 }
 
 
@@ -133,6 +154,8 @@ void ProductHandlerForm::on_searchPushButton_clicked()
         }
     }
     update();
+
+    Pui->searchLineEdit->clear();
 }
 
 
@@ -169,5 +192,15 @@ void ProductHandlerForm::on_modifyPushButton_clicked()
     productInfo.insert(key,p);
     update();
     //    emit productModified(w[2]->item(w[2]->currentRow(),0)->text().toInt());
+
+    for (int i = 0 ; i < 4; i++)    v[i]->clear();
+}
+
+void ProductHandlerForm::orderAddedProduct(int pid)
+{
+    QList<QString> pinfo;
+    pinfo << productInfo[pid]->getProductSort() << productInfo[pid]->getProductName()
+          << QString::number(productInfo[pid]->getProductPrice());
+    emit orderReturn(pinfo);
 }
 

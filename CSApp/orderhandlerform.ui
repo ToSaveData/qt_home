@@ -128,6 +128,9 @@
          </item>
          <item>
           <widget class="QTableWidget" name="tableWidget1">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
            <column>
             <property name="text">
              <string>tr(&quot;order ID&quot;)</string>
@@ -229,6 +232,9 @@
          </item>
          <item>
           <widget class="QTableWidget" name="tableWidget2">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
            <column>
             <property name="text">
              <string>tr(&quot;order ID&quot;)</string>
@@ -356,6 +362,9 @@
          </item>
          <item>
           <widget class="QTableWidget" name="tableWidget3">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
            <column>
             <property name="text">
              <string>tr(&quot;order ID&quot;)</string>
@@ -482,6 +491,9 @@
          </item>
          <item>
           <widget class="QTableWidget" name="tableWidget4">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
            <column>
             <property name="text">
              <string>tr(&quot;order ID&quot;)</string>
@@ -618,6 +630,12 @@
               <height>470</height>
              </size>
             </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOn</enum>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
             <column>
              <property name="text">
               <string>tr(&quot;order ID&quot;)</string>
@@ -663,8 +681,13 @@
               <string>tr(&quot;order quantity&quot;)</string>
              </property>
             </column>
+            <column>
+             <property name="text">
+              <string>tr(&quot;total price&quot;)</string>
+             </property>
+            </column>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
               <layout class="QGridLayout" name="gridLayout_2">
