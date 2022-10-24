@@ -16,6 +16,9 @@
     <height>0</height>
    </size>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>CS_App</string>
   </property>
@@ -23,6 +26,9 @@
    <enum>Qt::ToolButtonFollowStyle</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QMdiArea" name="mdiArea">
@@ -45,7 +51,7 @@
        <bool>false</bool>
       </property>
       <property name="tabPosition">
-       <enum>QTabWidget::West</enum>
+       <enum>QTabWidget::South</enum>
       </property>
      </widget>
     </item>
@@ -57,7 +63,7 @@
      <x>0</x>
      <y>0</y>
      <width>1191</width>
-     <height>25</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menutr_menu">
@@ -68,6 +74,7 @@
      <property name="title">
       <string>tr(&quot;formManagement&quot;)</string>
      </property>
+     <addaction name="actiontr_ChattingForm"/>
      <addaction name="actiontr_ClientInformationForm"/>
      <addaction name="actiontr_ProductInformationForm"/>
      <addaction name="actiontr_OrderInformationForm"/>
@@ -80,8 +87,20 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::TopToolBarArea</set>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -89,6 +108,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actiontr_ChattingForm"/>
    <addaction name="actiontr_ClientInformationForm"/>
    <addaction name="actiontr_ProductInformationForm"/>
    <addaction name="actiontr_OrderInformationForm"/>
@@ -113,6 +133,11 @@
   <action name="actiontr_quit">
    <property name="text">
     <string>tr(&quot;quit&quot;)</string>
+   </property>
+  </action>
+  <action name="actiontr_ChattingForm">
+   <property name="text">
+    <string>tr(&quot;ChattingForm&quot;)</string>
    </property>
   </action>
  </widget>

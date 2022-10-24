@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,8 +9,10 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chatform.cpp \
     clienthandlerform.cpp \
     clientinformaiton.cpp \
+    logthread.cpp \
     main.cpp \
     cs_app.cpp \
     orderhandlerform.cpp \
@@ -19,15 +21,18 @@ SOURCES += \
     productinformaiton.cpp
 
 HEADERS += \
+    chatform.h \
     clienthandlerform.h \
     clientinformaiton.h \
     cs_app.h \
+    logthread.h \
     orderhandlerform.h \
     orderinformaiton.h \
     producthandlerform.h \
     productinformaiton.h
 
 FORMS += \
+    chatform.ui \
     clienthandlerform.ui \
     cs_app.ui \
     orderhandlerform.ui \
@@ -42,3 +47,6 @@ CONFIG += embed_translations
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    icon_resources.qrc
