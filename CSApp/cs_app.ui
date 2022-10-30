@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1191</width>
-    <height>607</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -15,6 +15,12 @@
     <width>0</width>
     <height>0</height>
    </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>10</pointsize>
+   </font>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
@@ -26,6 +32,12 @@
    <enum>Qt::ToolButtonFollowStyle</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="contextMenuPolicy">
     <enum>Qt::NoContextMenu</enum>
    </property>
@@ -63,21 +75,39 @@
      <x>0</x>
      <y>0</y>
      <width>1191</width>
-     <height>17</height>
+     <height>24</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <widget class="QMenu" name="menutr_menu">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>tr(&quot;menu&quot;)</string>
     </property>
     <widget class="QMenu" name="menutr_formManagement">
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="title">
       <string>tr(&quot;formManagement&quot;)</string>
      </property>
-     <addaction name="actiontr_ChattingForm"/>
-     <addaction name="actiontr_ClientInformationForm"/>
-     <addaction name="actiontr_ProductInformationForm"/>
-     <addaction name="actiontr_OrderInformationForm"/>
+     <addaction name="actiontr_ChatServerForm"/>
+     <addaction name="actiontr_ClientHandlerForm"/>
+     <addaction name="actiontr_ProductHandlerForm"/>
+     <addaction name="actiontr_OrderHandlerForm"/>
     </widget>
     <addaction name="menutr_formManagement"/>
     <addaction name="separator"/>
@@ -87,6 +117,12 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
    <property name="contextMenuPolicy">
     <enum>Qt::NoContextMenu</enum>
    </property>
@@ -108,36 +144,78 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actiontr_ChattingForm"/>
-   <addaction name="actiontr_ClientInformationForm"/>
-   <addaction name="actiontr_ProductInformationForm"/>
-   <addaction name="actiontr_OrderInformationForm"/>
+   <addaction name="actiontr_ClientHandlerForm"/>
+   <addaction name="actiontr_ProductHandlerForm"/>
+   <addaction name="actiontr_OrderHandlerForm"/>
+   <addaction name="actiontr_ChatServerForm"/>
    <addaction name="separator"/>
    <addaction name="actiontr_quit"/>
   </widget>
-  <action name="actiontr_ClientInformationForm">
+  <action name="actiontr_ClientHandlerForm">
    <property name="text">
-    <string>tr(&quot;ClientInformationForm&quot;)</string>
+    <string>tr(&quot;ClientHandlerForm&quot;)</string>
+   </property>
+   <property name="toolTip">
+    <string>tr(&quot;ClientHandlerForm&quot;)</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
-  <action name="actiontr_ProductInformationForm">
+  <action name="actiontr_ProductHandlerForm">
    <property name="text">
-    <string>tr(&quot;ProductInformationForm&quot;)</string>
+    <string>tr(&quot;ProductHandlerForm&quot;)</string>
+   </property>
+   <property name="toolTip">
+    <string>tr(&quot;ProductHandlerForm&quot;)</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
-  <action name="actiontr_OrderInformationForm">
+  <action name="actiontr_OrderHandlerForm">
    <property name="text">
-    <string>tr(&quot;OrderInformationForm&quot;)</string>
+    <string>tr(&quot;OrderHandlerForm&quot;)</string>
+   </property>
+   <property name="toolTip">
+    <string>tr(&quot;OrderHandlerForm&quot;)</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
   <action name="actiontr_quit">
    <property name="text">
     <string>tr(&quot;quit&quot;)</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
   </action>
-  <action name="actiontr_ChattingForm">
+  <action name="actiontr_ChatServerForm">
    <property name="text">
-    <string>tr(&quot;ChattingForm&quot;)</string>
+    <string>tr(&quot;ChatServerForm&quot;)</string>
+   </property>
+   <property name="toolTip">
+    <string>tr(&quot;ChatServerForm&quot;)</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
  </widget>
